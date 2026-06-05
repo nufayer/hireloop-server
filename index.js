@@ -35,6 +35,7 @@ async function run() {
 
     const database = client.db("hireloop");
     const jobCollection = database.collection("jobs");
+    const companyCollection = database.collection("companies");
 
     app.get('/api/jobs', async (req, res) => {
         const query = {};
@@ -55,6 +56,12 @@ async function run() {
         res.send(result);   
     })  
 
+
+    app.post('/api/companies', async (req, res) => {
+      const company = req.body;
+      const result = await companyCollection.insertOne(company);            
+        res.send(result);   
+    })
 
 
     // Send a ping to confirm a successful connection
