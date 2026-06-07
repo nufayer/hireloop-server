@@ -52,12 +52,15 @@ async function run() {
 
     app.post('/api/jobs', async (req, res) => {
       const job = req.body;
-      const result = await jobCollection.insertOne(job);            
+      const newJob = {
+        ...job,
+        createdAt: new Date()
+      }
+      const result = await jobCollection.insertOne(newJob);            
         res.send(result);   
     })  
 
-
-
+  
     app.get('/api/my/companies', async (req, res) => {
         const query = {};
         if(req.query.recruiterId){
@@ -65,6 +68,16 @@ async function run() {
         }
         const result = await companyCollection.find(query).toArray();
         res.send(result);
+    })
+
+    app.post('/api/my/companies', async (req, res) => {
+      const company = req.body;
+      const newCompany = {
+        ...company, 
+        createdAt: new Date()
+      }
+      const result = await companyCollection.insertOne(newCompany);            
+        res.send(result);   
     })
 
     app.post('/api/companies', async (req, res) => {
